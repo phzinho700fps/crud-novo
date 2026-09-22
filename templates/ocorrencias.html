@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}BATCOMPUTER // OCORRÊNCIAS{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">DATABASE // GOTHAM INCIDENTS</div>
+        <h1>OCORRÊNCIAS</h1>
+    </div>
+    <a class="btn primary" href="{{ url_for('adicionar_ocorrencia') }}">+ NOVA OCORRÊNCIA</a>
+</div>
+
+<section class="table-panel">
+    <div class="table-header incidents-header">
+        <span>DATA</span>
+        <span>OCORRÊNCIA</span>
+        <span>LOCAL</span>
+        <span>ALVO</span>
+        <span>STATUS</span>
+        <span>AÇÃO</span>
+    </div>
+
+    {% for caso in ocorrencias %}
+    <div class="table-row incident-table-row">
+        <span class="id-code">{{ caso["data"] }}</span>
+        <div class="identity">
+            <strong>{{ caso["titulo"] }}</strong>
+            <small>{{ caso["descricao"] }}</small>
+        </div>
+        <span>{{ caso["local"] }}</span>
+        <span>{{ caso["codinome"] or "NÃO IDENTIFICADO" }}</span>
+        <span class="badge">{{ caso["status"] }}</span>
+        <form method="POST" action="{{ url_for('excluir_ocorrencia', ocorrencia_id=caso['id']) }}" onsubmit="return confirm('Excluir esta ocorrência?');">
+            <button class="btn small danger-btn" type="submit">EXCLUIR</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="empty">Nenhuma ocorrência registrada.</div>
+    {% endfor %}
+</section>
+{% endblock %}

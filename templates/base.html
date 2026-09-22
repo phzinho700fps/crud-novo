@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>
+    {% block title %}BATCOMPUTER{% endblock %}
+</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+```
+
+</head>
+
+<body>
+
+```
+<div class="scanlines"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <!-- =====================================================
+             LOGO DO BATMAN
+
+             Coloque sua imagem em:
+
+             static/images/batman-logo.png
+        ====================================================== -->
+
+        <img
+            src="{{ url_for('static', filename='images/batman-logo.png') }}"
+            alt="Batman"
+            class="batman-logo"
+            onerror="
+                this.style.display='none';
+                document.getElementById('logo-placeholder').style.display='flex';
+            "
+        >
+
+        <div
+            id="logo-placeholder"
+            class="logo-placeholder"
+            aria-label="Espaço reservado para o logo"
+        >
+            BAT
+        </div>
+
+
+        <div>
+
+            <div class="brand-name">
+                BATCOMPUTER
+            </div>
+
+            <div class="brand-subtitle">
+                GOTHAM CITY SURVEILLANCE SYSTEM
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATUS DO SISTEMA -->
+
+    <div class="system-status">
+
+        <span class="status-dot"></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     LAYOUT PRINCIPAL
+========================================================== -->
+
+<div class="layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="terminal-label">
+            WAYNE NETWORK // SECURE
+        </div>
+
+
+        <nav>
+
+            <!-- INÍCIO -->
+
+            <a
+                href="{{ url_for('index') }}"
+                class="{% if request.endpoint == 'index' %}active{% endif %}"
+            >
+                <span>01</span>
+                INÍCIO
+            </a>
+
+
+            <!-- CRIMINOSOS -->
+
+            <a
+                href="{{ url_for('criminosos') }}"
+                class="{% if request.endpoint in ['criminosos', 'criminoso', 'adicionar_criminoso', 'editar_criminoso'] %}active{% endif %}"
+            >
+                <span>02</span>
+                CRIMINOSOS
+            </a>
+
+
+            <!-- OCORRÊNCIAS -->
+
+            <a
+                href="{{ url_for('ocorrencias') }}"
+                class="{% if request.endpoint in ['ocorrencias', 'adicionar_ocorrencia'] %}active{% endif %}"
+            >
+                <span>03</span>
+                OCORRÊNCIAS
+            </a>
+
+        </nav>
+
+
+        <!-- STATUS DA BATCAVE -->
+
+        <div class="sidebar-bottom">
+
+            <div>
+                BATCAVE SERVER
+            </div>
+
+            <div class="online">
+                ● CONNECTED
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         CONTEÚDO
+    ====================================================== -->
+
+    <main class="main-content">
+
+        <!-- MENSAGENS DO FLASK -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- CONTEÚDO ESPECÍFICO DE CADA PÁGINA -->
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer class="footer">
+
+    <span>
+        WAYNE ENTERPRISES SECURE NETWORK
+    </span>
+
+    <span>
+        BATCOMPUTER v1.0 //
+        <span id="clock">00:00:00</span>
+    </span>
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}"
+></script>
+```
+
+</body>
+
+</html>

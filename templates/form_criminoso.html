@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}
+BATCOMPUTER // {{ "EDITAR" if modo == "editar" else "NOVO ARQUIVO" }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">
+            DATABASE //
+            {{ "MODIFY RECORD" if modo == "editar" else "NEW RECORD" }}
+        </div>
+
+```
+    <h1>
+        {{ "EDITAR ARQUIVO" if modo == "editar" else "NOVO ARQUIVO" }}
+    </h1>
+</div>
+```
+
+</div>
+
+<form class="form-panel" method="POST">
+
+```
+<div class="form-grid">
+
+    <!-- NOME -->
+    <label>
+        NOME
+
+        <input
+            type="text"
+            name="nome"
+            required
+            value="{{ criminoso['nome'] if criminoso else '' }}"
+        >
+    </label>
+
+
+    <!-- CODINOME -->
+    <label>
+        CODINOME
+
+        <input
+            type="text"
+            name="codinome"
+            required
+            value="{{ criminoso['codinome'] if criminoso else '' }}"
+        >
+    </label>
+
+
+    <!-- NÍVEL DE PERIGO -->
+    <label>
+        NÍVEL DE PERIGO
+
+        <input
+            type="number"
+            name="nivel_perigo"
+            min="1"
+            max="10"
+            required
+            value="{{ criminoso['nivel_perigo'] if criminoso else 5 }}"
+        >
+    </label>
+
+
+    <!-- STATUS -->
+    <label>
+        STATUS
+
+        <select name="status" required>
+
+            {% set atual = criminoso['status'] if criminoso else '' %}
+
+            {% for status in [
+                'Procurado',
+                'Alta prioridade',
+                'Sob investigação',
+                'Monitorado',
+                'Detido',
+                'Desconhecido'
+            ] %}
+
+                <option
+                    value="{{ status }}"
+                    {% if atual == status %}selected{% endif %}
+                >
+                    {{ status }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+    </label>
+
+
+    <!-- LOCALIZAÇÃO -->
+    <label class="full">
+        ÚLTIMA LOCALIZAÇÃO
+
+        <input
+            type="text"
+            name="ultima_localizacao"
+            value="{{ criminoso['ultima_localizacao'] if criminoso else '' }}"
+        >
+    </label>
+
+
+    <!-- FOTO -->
+    <label class="full">
+        FOTO DO CRIMINOSO
+
+        <input
+            type="text"
+            name="foto"
+            placeholder="Ex: coringa.jpg"
+            value="{{ criminoso['foto'] if criminoso and criminoso['foto'] else '' }}"
+        >
+
+        <small class="muted">
+            Coloque a imagem dentro de static/images/
+            e informe somente o nome do arquivo.
+        </small>
+    </label>
+
+
+    <!-- DESCRIÇÃO -->
+    <label class="full">
+        DESCRIÇÃO
+
+        <textarea
+            name="descricao"
+            rows="7"
+        >{{ criminoso['descricao'] if criminoso else '' }}</textarea>
+    </label>
+
+</div>
+
+
+<!-- BOTÕES -->
+<div class="form-actions">
+
+    <a
+        class="btn"
+        href="{{ url_for('criminosos') }}"
+    >
+        CANCELAR
+    </a>
+
+    <button
+        class="btn primary"
+        type="submit"
+    >
+        SALVAR NO BATCOMPUTER
+    </button>
+
+</div>
+```
+
+</form>
+
+{% endblock %}

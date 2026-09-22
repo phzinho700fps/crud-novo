@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}BATCOMPUTER // CRIMINOSOS{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+
+```
+<div>
+
+    <div class="eyebrow">
+        DATABASE // CRIMINAL RECORDS
+    </div>
+
+    <h1>
+        CRIMINOSOS
+    </h1>
+
+</div>
+
+
+<a
+    class="btn primary"
+    href="{{ url_for('adicionar_criminoso') }}"
+>
+    + NOVO ARQUIVO
+</a>
+```
+
+</div>
+
+<!-- =========================================================
+     PESQUISA
+========================================================= -->
+
+<form
+    class="search-bar"
+    method="GET"
+>
+
+```
+<span>
+    &gt;
+</span>
+
+<input
+    type="text"
+    name="busca"
+    value="{{ busca }}"
+    placeholder="PESQUISAR NOME, CODINOME OU STATUS..."
+    autocomplete="off"
+>
+
+<button type="submit">
+    SEARCH
+</button>
+```
+
+</form>
+
+<!-- =========================================================
+     TABELA DE CRIMINOSOS
+========================================================= -->
+
+<section class="table-panel">
+
+```
+<!-- CABEÇALHO -->
+
+<div class="table-header">
+
+    <span>
+        ID
+    </span>
+
+    <span>
+        IDENTIFICAÇÃO
+    </span>
+
+    <span>
+        AMEAÇA
+    </span>
+
+    <span>
+        STATUS
+    </span>
+
+    <span>
+        AÇÃO
+    </span>
+
+</div>
+
+
+
+<!-- CRIMINOSOS -->
+
+{% for criminoso in criminosos %}
+
+<div class="table-row">
+
+
+    <!-- ID -->
+
+    <span class="id-code">
+        #{{ "%03d"|format(criminoso["id"]) }}
+    </span>
+
+
+
+    <!-- IDENTIFICAÇÃO -->
+
+    <div class="identity">
+
+        {% if criminoso["foto"] %}
+
+            <img
+                src="{{ url_for('static', filename='images/' + criminoso['foto']) }}"
+                alt="{{ criminoso['codinome'] }}"
+                class="criminal-list-photo"
+            >
+
+        {% else %}
+
+            <div class="criminal-list-photo-placeholder">
+                ?
+            </div>
+
+        {% endif %}
+
+
+        <div>
+
+            <strong>
+                {{ criminoso["codinome"] }}
+            </strong>
+
+            <small>
+                {{ criminoso["nome"] }}
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NÍVEL DE AMEAÇA -->
+
+    <div class="threat">
+
+        <span class="threat-number">
+            {{ criminoso["nivel_perigo"] }}/10
+        </span>
+
+        <span class="threat-bar">
+
+            <span
+                class="threat-level-{{ criminoso['nivel_perigo'] }}"
+            ></span>
+
+        </span>
+
+    </div>
+
+
+
+    <!-- STATUS -->
+
+    <span class="badge">
+        {{ criminoso["status"] }}
+    </span>
+
+
+
+    <!-- AÇÃO -->
+
+    <a
+        class="btn small"
+        href="{{ url_for('criminoso', criminoso_id=criminoso['id']) }}"
+    >
+        ABRIR
+    </a>
+
+</div>
+
+
+{% else %}
+
+
+<!-- NENHUM RESULTADO -->
+
+<div class="empty">
+    Nenhum arquivo corresponde à pesquisa.
+</div>
+
+
+{% endfor %}
+```
+
+</section>
+
+{% endblock %}

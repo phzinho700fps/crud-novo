@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}BATCOMPUTER // {{ criminoso["codinome"] }}{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+
+```
+<div>
+
+    <div class="eyebrow">
+        CRIMINAL FILE #{{ "%03d"|format(criminoso["id"]) }}
+    </div>
+
+    <h1>{{ criminoso["codinome"] }}</h1>
+
+    <p class="subtitle">
+        {{ criminoso["nome"] }}
+    </p>
+
+</div>
+
+
+<div class="actions">
+
+    <a
+        class="btn"
+        href="{{ url_for('editar_criminoso', criminoso_id=criminoso['id']) }}"
+    >
+        EDITAR
+    </a>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('excluir_criminoso', criminoso_id=criminoso['id']) }}"
+        onsubmit="return confirm('Remover este arquivo do Batcomputador?');"
+    >
+
+        <button
+            class="btn danger-btn"
+            type="submit"
+        >
+            EXCLUIR
+        </button>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     IDENTIFICAÇÃO + NÍVEL DE PERIGO
+========================================================= -->
+
+<div class="profile-grid">
+
+```
+<!-- =====================================================
+     IDENTIFICAÇÃO
+====================================================== -->
+
+<section class="profile-card panel">
+
+    <div class="panel-header">
+
+        <span>
+            IDENTIFICATION
+        </span>
+
+        <span class="panel-code">
+            CLASSIFIED
+        </span>
+
+    </div>
+
+
+    <div class="profile-content">
+
+
+        <!-- FOTO DO CRIMINOSO -->
+
+        <div class="avatar-placeholder">
+
+            {% if criminoso["foto"] %}
+
+                <img
+                    src="{{ url_for('static', filename='images/' + criminoso['foto']) }}"
+                    alt="{{ criminoso['codinome'] }}"
+                    class="criminal-photo"
+                >
+
+            {% else %}
+
+                <span>?</span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- INFORMAÇÕES -->
+
+        <div class="profile-info">
+
+            <div>
+
+                <label>
+                    NOME
+                </label>
+
+                <strong>
+                    {{ criminoso["nome"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    CODINOME
+                </label>
+
+                <strong>
+                    {{ criminoso["codinome"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    STATUS
+                </label>
+
+                <strong>
+                    {{ criminoso["status"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    LOCALIZAÇÃO
+                </label>
+
+                <strong>
+                    {{ criminoso["ultima_localizacao"] or "DESCONHECIDA" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     THREAT ASSESSMENT
+====================================================== -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <span>
+            THREAT ASSESSMENT
+        </span>
+
+        <span class="panel-code">
+            1—10
+        </span>
+
+    </div>
+
+
+    <div class="big-threat">
+
+        {{ criminoso["nivel_perigo"] }}
+
+        <small>
+            /10
+        </small>
+
+    </div>
+
+
+    <div class="large-threat-bar">
+
+        <div
+            class="threat-level-{{ criminoso['nivel_perigo'] }}"
+        ></div>
+
+    </div>
+
+
+    <p class="muted">
+        Nível de perigo registrado pelo sistema.
+    </p>
+
+</section>
+```
+
+</div>
+
+<!-- =========================================================
+     RELATÓRIO DO BATCOMPUTER
+========================================================= -->
+
+<section class="panel description-panel">
+
+```
+<div class="panel-header">
+
+    <span>
+        BATCOMPUTER INTELLIGENCE REPORT
+    </span>
+
+    <span class="panel-code">
+        FILE://{{ criminoso["id"] }}
+    </span>
+
+</div>
+
+
+<p>
+    {{ criminoso["descricao"] or "Nenhuma descrição registrada." }}
+</p>
+```
+
+</section>
+
+<!-- =========================================================
+     OCORRÊNCIAS ASSOCIADAS
+========================================================= -->
+
+<section class="panel">
+
+```
+<div class="panel-header">
+
+    <span>
+        ASSOCIATED INCIDENTS
+    </span>
+
+    <span class="panel-code">
+        {{ ocorrencias|length }} RECORD(S)
+    </span>
+
+</div>
+
+
+{% for caso in ocorrencias %}
+
+    <div class="incident-row static-row">
+
+        <div>
+
+            <strong>
+                {{ caso["titulo"] }}
+            </strong>
+
+            <small>
+
+                {{ caso["local"] }}
+
+                //
+
+                {{ caso["data"] }}
+
+                //
+
+                {{ caso["status"] }}
+
+            </small>
+
+        </div>
+
+
+        <span class="badge">
+            {{ caso["status"] }}
+        </span>
+
+    </div>
+
+
+{% else %}
+
+    <div class="empty">
+        Nenhuma ocorrência vinculada a este arquivo.
+    </div>
+
+{% endfor %}
+```
+
+</section>
+
+{% endblock %}

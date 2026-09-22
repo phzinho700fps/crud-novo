@@ -1,0 +1,1115 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #050608;
+    --panel: #0a0d10;
+    --panel-2: #0d1115;
+    --line: #283039;
+    --line-bright: #424b53;
+    --text: #d8dde0;
+    --muted: #707a82;
+    --yellow: #f2c94c;
+    --yellow-soft: #b8912c;
+    --red: #d44949;
+    --green: #5dd28b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(242, 201, 76, 0.06),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #050608,
+            #090c0f 60%,
+            #040506
+        );
+    color: var(--text);
+    font-family: "Rajdhani", Arial, sans-serif;
+    letter-spacing: 0.03em;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.012) 1px,
+            transparent 1px
+        );
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 3px,
+        rgba(255,255,255,0.012) 4px
+    );
+}
+
+
+/* ================================================================
+   TOPBAR
+================================================================ */
+
+.topbar {
+    height: 82px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(5, 7, 9, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.batman-logo {
+    width: 58px;
+    height: 42px;
+    object-fit: contain;
+    filter: drop-shadow(
+        0 0 8px rgba(242,201,76,0.2)
+    );
+}
+
+.logo-placeholder {
+    width: 58px;
+    height: 42px;
+    border: 1px dashed #65541e;
+    color: var(--yellow);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 14px;
+}
+
+.brand-name {
+    color: var(--yellow);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.brand-subtitle,
+.terminal-label,
+.eyebrow,
+.panel-code,
+.stat-label,
+label {
+    font-family: "Share Tech Mono", monospace;
+}
+
+.brand-subtitle {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.system-status {
+    color: var(--green);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 12px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--green);
+    margin-right: 7px;
+}
+
+
+/* ================================================================
+   LAYOUT
+================================================================ */
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 122px);
+}
+
+.sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--line);
+    background: rgba(7, 9, 11, 0.78);
+    padding: 28px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-label {
+    color: #555f67;
+    font-size: 9px;
+    margin: 0 12px 24px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar nav a {
+    text-decoration: none;
+    color: #7d878f;
+    padding: 13px 12px;
+    border-left: 2px solid transparent;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 12px;
+    transition: 0.2s ease;
+}
+
+.sidebar nav a span {
+    color: #454d53;
+    margin-right: 12px;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    color: var(--yellow);
+    background: rgba(242, 201, 76, 0.045);
+    border-left-color: var(--yellow);
+}
+
+.sidebar nav a.active span {
+    color: var(--yellow-soft);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding: 18px 12px 0;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+    color: #4f585e;
+    line-height: 2;
+}
+
+.online {
+    color: var(--green);
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    max-width: 1500px;
+    width: 100%;
+    padding: 42px 48px 60px;
+    margin: 0 auto;
+}
+
+
+/* ================================================================
+   DASHBOARD
+================================================================ */
+
+.boot-panel {
+    min-height: 260px;
+    padding: 32px;
+    border: 1px solid var(--line);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242,201,76,0.035),
+            transparent 50%
+        ),
+        var(--panel);
+    position: relative;
+    overflow: hidden;
+}
+
+.boot-panel::after {
+    content: "BAT // 01";
+    position: absolute;
+    right: 24px;
+    bottom: 18px;
+    font-family: "Share Tech Mono", monospace;
+    color: #222a2f;
+    font-size: 52px;
+}
+
+.eyebrow {
+    color: var(--yellow-soft);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+}
+
+h1 {
+    margin: 12px 0 8px;
+    color: #e7eaeb;
+    font-size: clamp(34px, 5vw, 62px);
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+}
+
+h1 span {
+    color: var(--yellow);
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-top: -2px;
+}
+
+.terminal-text {
+    margin-top: 30px;
+    color: #78838b;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 12px;
+}
+
+.cursor {
+    color: var(--yellow);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 34px 0 14px;
+    color: #747e85;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 11px;
+}
+
+.section-heading div {
+    height: 1px;
+    background: var(--line);
+    flex: 1;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat-card,
+.panel,
+.table-panel,
+.form-panel {
+    border: 1px solid var(--line);
+    background: rgba(10, 13, 16, 0.9);
+}
+
+.stat-card {
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card.danger {
+    border-color: #4a2929;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.stat-value {
+    color: #e4e8e9;
+    font-size: 42px;
+    font-weight: 600;
+    margin: 12px 0;
+}
+
+.stat-line {
+    height: 2px;
+    width: 40%;
+    background: var(--yellow);
+}
+
+.danger .stat-line {
+    background: var(--red);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.panel {
+    padding: 0;
+}
+
+.panel-header,
+.table-header {
+    min-height: 44px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    color: #9aa2a7;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+}
+
+.panel-code {
+    color: #4f585e;
+    font-size: 9px;
+}
+
+.incident-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.incident-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding: 17px 18px;
+    border-bottom: 1px solid #181e23;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.incident-row:last-child {
+    border-bottom: 0;
+}
+
+.incident-row:hover {
+    background: rgba(242,201,76,0.035);
+}
+
+.incident-row strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.incident-row small {
+    display: block;
+    color: #687279;
+    margin-top: 4px;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+}
+
+.badge {
+    border: 1px solid #4c4327;
+    color: var(--yellow);
+    background: rgba(242,201,76,0.04);
+    padding: 5px 8px;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 8px;
+    white-space: nowrap;
+}
+
+.diagnostic {
+    padding: 12px 18px;
+}
+
+.diagnostic div {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #252c31;
+    padding: 9px 0;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+}
+
+.diagnostic div span {
+    color: #5f696f;
+}
+
+.diagnostic b {
+    color: var(--green);
+    font-weight: normal;
+}
+
+.terminal-box {
+    margin: 8px 18px 18px;
+    padding: 14px;
+    border: 1px solid #20282e;
+    background: #050708;
+    color: #5c676e;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+    line-height: 1.9;
+}
+
+
+/* ================================================================
+   PAGE HEADINGS
+================================================================ */
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.page-heading h1 {
+    font-size: clamp(34px, 5vw, 52px);
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.actions form {
+    margin: 0;
+}
+
+
+/* ================================================================
+   BUTTONS
+================================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid #3b444b;
+    background: #0a0d10;
+    color: #aeb6ba;
+    text-decoration: none;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+}
+
+.btn.primary {
+    background: rgba(242,201,76,0.08);
+    border-color: var(--yellow-soft);
+    color: var(--yellow);
+}
+
+.btn.danger-btn {
+    border-color: #633333;
+    color: #dc7777;
+}
+
+.btn.small {
+    min-height: 31px;
+    padding: 0 10px;
+    font-size: 8px;
+}
+
+
+/* ================================================================
+   SEARCH
+================================================================ */
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    border: 1px solid var(--line);
+    background: #06080a;
+    margin-bottom: 14px;
+    padding-left: 14px;
+    font-family: "Share Tech Mono", monospace;
+}
+
+.search-bar span {
+    color: var(--yellow);
+}
+
+.search-bar input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #cbd0d2;
+    font: 11px "Share Tech Mono", monospace;
+}
+
+.search-bar button {
+    height: 100%;
+    padding: 0 18px;
+    border: 0;
+    border-left: 1px solid var(--line);
+    background: rgba(242,201,76,0.06);
+    color: var(--yellow);
+    font: 10px "Share Tech Mono", monospace;
+    cursor: pointer;
+}
+
+
+/* ================================================================
+   TABELAS
+================================================================ */
+
+.table-panel {
+    overflow: hidden;
+}
+
+.table-header,
+.table-row {
+    display: grid;
+    grid-template-columns: 80px 1.6fr 1fr 1fr 90px;
+    gap: 14px;
+    align-items: center;
+}
+
+.table-row {
+    min-height: 74px;
+    padding: 10px 18px;
+    border-bottom: 1px solid #181e23;
+    font-size: 12px;
+}
+
+.table-row:last-child {
+    border-bottom: 0;
+}
+
+.id-code {
+    color: #4f595f;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+}
+
+.identity strong {
+    display: block;
+    color: #d5dadd;
+    font-size: 15px;
+}
+
+.identity small {
+    color: #657077;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+}
+
+
+/* ================================================================
+   FOTOS DOS CRIMINOSOS
+================================================================ */
+
+/* Foto na lista de criminosos */
+
+.criminal-list-photo {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
+    border: 1px solid #3a4248;
+    background: #080a0c;
+}
+
+/* Espaço quando o criminoso não possui foto */
+
+.criminal-list-photo-placeholder {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border: 1px dashed #3a4248;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #30383e;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 22px;
+    background: #080a0c;
+}
+
+/* Foto grande na ficha individual */
+
+.criminal-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Mantém a foto dentro do quadro da ficha */
+
+.avatar-placeholder {
+    width: 120px;
+    height: 145px;
+    flex-shrink: 0;
+    border: 1px solid #3a4248;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #30383e;
+    font-size: 56px;
+    font-family: "Share Tech Mono", monospace;
+    background:
+        linear-gradient(
+            135deg,
+            transparent 48%,
+            #161b20 49%,
+            transparent 51%
+        ),
+        linear-gradient(
+            45deg,
+            transparent 48%,
+            #161b20 49%,
+            transparent 51%
+        );
+    overflow: hidden;
+}
+
+
+/* ================================================================
+   NÍVEL DE PERIGO
+================================================================ */
+
+.threat {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.threat-number {
+    font-family: "Share Tech Mono", monospace;
+    color: #8e979c;
+    font-size: 9px;
+}
+
+.threat-bar {
+    width: 60px;
+    height: 5px;
+    background: #1a2025;
+    display: block;
+    overflow: hidden;
+}
+
+.threat-bar i,
+.large-threat-bar i {
+    display: block;
+    height: 100%;
+    background: var(--yellow);
+}
+
+.threat-level-1 {
+    width: 10%;
+}
+
+.threat-level-2 {
+    width: 20%;
+}
+
+.threat-level-3 {
+    width: 30%;
+}
+
+.threat-level-4 {
+    width: 40%;
+}
+
+.threat-level-5 {
+    width: 50%;
+}
+
+.threat-level-6 {
+    width: 60%;
+}
+
+.threat-level-7 {
+    width: 70%;
+}
+
+.threat-level-8 {
+    width: 80%;
+}
+
+.threat-level-9 {
+    width: 90%;
+}
+
+.threat-level-10 {
+    width: 100%;
+}
+
+
+/* ================================================================
+   PERFIL DO CRIMINOSO
+================================================================ */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.profile-content {
+    padding: 24px;
+    display: flex;
+    gap: 24px;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info div {
+    border-bottom: 1px solid #1c2328;
+    padding: 9px 0;
+}
+
+.profile-info label {
+    display: block;
+    color: #59636a;
+    font-size: 8px;
+    margin-bottom: 3px;
+}
+
+.profile-info strong {
+    font-size: 14px;
+}
+
+.big-threat {
+    padding: 26px 24px 12px;
+    color: var(--yellow);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 70px;
+}
+
+.big-threat small {
+    color: #59636a;
+    font-size: 18px;
+}
+
+.large-threat-bar {
+    height: 8px;
+    background: #1a2025;
+    margin: 0 24px;
+    overflow: hidden;
+}
+
+.large-threat-bar div {
+    height: 100%;
+    background: var(--yellow);
+}
+
+.muted {
+    color: #5d676e;
+    font-size: 10px;
+    padding: 0 24px 20px;
+}
+
+
+/* ================================================================
+   DESCRIÇÃO
+================================================================ */
+
+.description-panel {
+    margin-bottom: 14px;
+}
+
+.description-panel p {
+    padding: 20px;
+    color: #8f999e;
+    line-height: 1.7;
+}
+
+
+/* ================================================================
+   FORMULÁRIOS
+================================================================ */
+
+.static-row {
+    cursor: default;
+}
+
+.static-row:hover {
+    background: transparent;
+}
+
+.form-panel {
+    padding: 28px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #69747b;
+    font-size: 9px;
+}
+
+.form-grid label.full {
+    grid-column: 1 / -1;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    width: 100%;
+    border: 1px solid #2c353c;
+    background: #06080a;
+    color: #cbd0d2;
+    padding: 12px;
+    outline: none;
+    font: 12px "Rajdhani", sans-serif;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+    border-color: var(--yellow-soft);
+    box-shadow: 0 0 0 2px rgba(242,201,76,0.04);
+}
+
+.form-grid textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    margin-top: 8px;
+}
+
+
+/* ================================================================
+   MENSAGENS
+================================================================ */
+
+.flash {
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border: 1px solid #3a4248;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+    transition: opacity 0.4s ease;
+}
+
+.flash.success {
+    border-color: #285c3d;
+    color: var(--green);
+    background: rgba(93,210,139,0.04);
+}
+
+.flash.error {
+    border-color: #633333;
+    color: #dc7777;
+    background: rgba(212,73,73,0.04);
+}
+
+.empty {
+    padding: 35px;
+    text-align: center;
+    color: #566168;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+}
+
+
+/* ================================================================
+   OCORRÊNCIAS
+================================================================ */
+
+.footer {
+    min-height: 40px;
+    border-top: 1px solid var(--line);
+    background: #050608;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 34px;
+    color: #3e474d;
+    font: 8px "Share Tech Mono", monospace;
+}
+
+.incidents-header,
+.incident-table-row {
+    grid-template-columns: 95px 1.6fr 1fr 1fr 1fr 80px;
+}
+
+.incident-table-row .identity small {
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ================================================================
+   RESPONSIVIDADE
+================================================================ */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .main-content {
+        padding: 30px 24px 50px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid,
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 720px) {
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .system-status {
+        display: none;
+    }
+
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 10px;
+    }
+
+    .terminal-label,
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .sidebar nav a {
+        white-space: nowrap;
+    }
+
+    .main-content {
+        padding: 22px 14px 40px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .page-heading {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .table-panel {
+        overflow-x: auto;
+    }
+
+    .table-header,
+    .table-row {
+        min-width: 720px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid label.full {
+        grid-column: auto;
+    }
+
+    .profile-content {
+        flex-direction: column;
+    }
+
+    .footer {
+        padding: 0 14px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-name {
+        font-size: 18px;
+    }
+
+    .brand-subtitle {
+        display: none;
+    }
+
+    .criminal-photo {
+        width: 120px;
+        height: 145px;
+    }
+}

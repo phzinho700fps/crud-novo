@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}BATCOMPUTER // INÍCIO{% endblock %}
+
+{% block content %}
+<section class="boot-panel">
+    <div class="eyebrow">BATCOMPUTER // MAIN TERMINAL</div>
+    <h1>GOTHAM CITY<br><span>SURVEILLANCE SYSTEM</span></h1>
+    <p class="terminal-text">
+        <span id="typing-text"></span><span class="cursor">_</span>
+    </p>
+</section>
+
+<div class="section-heading">
+    <span>SYSTEM STATUS</span>
+    <div></div>
+</div>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-label">CRIMINOSOS CADASTRADOS</div>
+        <div class="stat-value">{{ stats.criminosos }}</div>
+        <div class="stat-line"></div>
+    </article>
+    <article class="stat-card danger">
+        <div class="stat-label">ALVOS PRIORITÁRIOS</div>
+        <div class="stat-value">{{ stats.procurados }}</div>
+        <div class="stat-line"></div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-label">CASOS ATIVOS</div>
+        <div class="stat-value">{{ stats.casos_ativos }}</div>
+        <div class="stat-line"></div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-label">CASOS ENCERRADOS</div>
+        <div class="stat-value">{{ stats.casos_encerrados }}</div>
+        <div class="stat-line"></div>
+    </article>
+</section>
+
+<div class="dashboard-grid">
+    <section class="panel">
+        <div class="panel-header">
+            <span>RECENT INCIDENTS</span>
+            <span class="panel-code">DB://LATEST</span>
+        </div>
+
+        {% if recentes %}
+        <div class="incident-list">
+            {% for caso in recentes %}
+            <a class="incident-row" href="{{ url_for('ocorrencias') }}">
+                <div>
+                    <strong>{{ caso["titulo"] }}</strong>
+                    <small>{{ caso["local"] }} // {{ caso["data"] }}</small>
+                </div>
+                <span class="badge">{{ caso["status"] }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="empty">Nenhuma ocorrência registrada.</div>
+        {% endif %}
+    </section>
+
+    <section class="panel system-panel">
+        <div class="panel-header">
+            <span>BATCOMPUTER DIAGNOSTICS</span>
+            <span class="panel-code">SYS://OK</span>
+        </div>
+
+        <div class="diagnostic">
+            <div><span>DATABASE</span><b>ONLINE</b></div>
+            <div><span>GOTHAM NETWORK</span><b>CONNECTED</b></div>
+            <div><span>BATCAVE SERVER</span><b>ACTIVE</b></div>
+            <div><span>SECURITY PROTOCOL</span><b>LEVEL 10</b></div>
+            <div><span>THREAT MONITOR</span><b>RUNNING</b></div>
+        </div>
+
+        <div class="terminal-box">
+            <div>&gt; scanning network...</div>
+            <div>&gt; encrypted connection established</div>
+            <div>&gt; database integrity: 100%</div>
+            <div>&gt; waiting for command<span class="cursor">_</span></div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}BATCOMPUTER // NOVA OCORRÊNCIA{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">DATABASE // INCIDENT REPORT</div>
+        <h1>NOVA OCORRÊNCIA</h1>
+    </div>
+</div>
+
+<form class="form-panel" method="POST">
+    <div class="form-grid">
+        <label class="full">
+            TÍTULO
+            <input type="text" name="titulo" required placeholder="Ex.: Roubo ao Gotham National Bank">
+        </label>
+
+        <label>
+            DATA
+            <input type="date" name="data" required>
+        </label>
+
+        <label>
+            STATUS
+            <select name="status" required>
+                <option>Em investigação</option>
+                <option>Ativa</option>
+                <option>Monitoramento</option>
+                <option>Resolvida</option>
+                <option>Encerrada</option>
+            </select>
+        </label>
+
+        <label class="full">
+            LOCAL
+            <input type="text" name="local" required placeholder="Local da ocorrência">
+        </label>
+
+        <label>
+            CRIMINOSO RELACIONADO
+            <select name="criminoso_id">
+                <option value="">Não identificado</option>
+                {% for criminoso in criminosos %}
+                    <option value="{{ criminoso['id'] }}">{{ criminoso['codinome'] }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label class="full">
+            DESCRIÇÃO
+            <textarea name="descricao" rows="7" required placeholder="Descreva a ocorrência..."></textarea>
+        </label>
+    </div>
+
+    <div class="form-actions">
+        <a class="btn" href="{{ url_for('ocorrencias') }}">CANCELAR</a>
+        <button class="btn primary" type="submit">REGISTRAR OCORRÊNCIA</button>
+    </div>
+</form>
+{% endblock %}
